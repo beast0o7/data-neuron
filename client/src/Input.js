@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import DataFetchingComponent from './Count'; // Import the DataFetchingComponent
 import Modal from './Modal'; // Import the Modal component
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const MyComponent = (props) => {
   const { storeNumber } = props;
@@ -22,60 +23,60 @@ const MyComponent = (props) => {
   };
 
   const handleAdd = () => {
-    axios.post('http://localhost:3001/api/books', {
+    axios.post(`${apiUrl}/books`, {
       title: input1,
       description: input2,
       store_number: storeNumber
     })
-    .then(response => {
-      console.log('Data added successfully:', response.data);
-      // Reset input values after successful submission
-      setInput1('');
-      setInput2('');
-      setRefresh(!refresh); // Toggle refresh state to trigger a refresh
-      setSubmitted(true); // Set submitted state to true
-      let message = response.data.message || 'Data added successfully'
-      setModalMessage(message); // Set modal message
-      setModalOpen(true); // Open modal
-    })
-    .catch(error => {
-      console.error('Error adding data:', error);
-      // Handle error if needed
-      console.log(error.response.data.message)
-      let message = error?.response?.data?.message || error.message
-      setModalMessage(message);
-      setModalOpen(true); // Open modal
-    });
+      .then(response => {
+        console.log('Data added successfully:', response.data);
+        // Reset input values after successful submission
+        setInput1('');
+        setInput2('');
+        setRefresh(!refresh); // Toggle refresh state to trigger a refresh
+        setSubmitted(true); // Set submitted state to true
+        let message = response.data.message || 'Data added successfully'
+        setModalMessage(message); // Set modal message
+        setModalOpen(true); // Open modal
+      })
+      .catch(error => {
+        console.error('Error adding data:', error);
+        // Handle error if needed
+        console.log(error.response.data.message)
+        let message = error?.response?.data?.message || error.message
+        setModalMessage(message);
+        setModalOpen(true); // Open modal
+      });
   };
 
   const handleUpdate = () => {
     // Implement update logic here
     // For demonstration purpose, let's assume an update API endpoint is available
-    axios.put(`http://localhost:3001/api/books/${input1}`, {
-      
-    description: input2,
-    store_number: storeNumber
+    axios.put(`${apiUrl}/books/${input1}`, {
+
+      description: input2,
+      store_number: storeNumber
 
     })
-    .then(response => {
-      console.log('Data updated successfully:', response.data);
-      // Reset input values after successful update
-      setInput1('');
-      setInput2('');
-      setRefresh(!refresh); // Toggle refresh state to trigger a refresh
-      setSubmitted(true); // Set submitted state to true
-      let message = response.data.message || 'Data updated successfully'
-      setModalMessage(message); // Set modal message
-      setModalOpen(true); // Open modal
-    })
-    .catch(error => {
-      console.error('Error updating data:', error);
-      // Handle error if needed
-      console.log(error.response.data.message)
-      let message = error?.response?.data?.message || error.message
-      setModalMessage(message);
-      setModalOpen(true); // Open modal
-    });
+      .then(response => {
+        console.log('Data updated successfully:', response.data);
+        // Reset input values after successful update
+        setInput1('');
+        setInput2('');
+        setRefresh(!refresh); // Toggle refresh state to trigger a refresh
+        setSubmitted(true); // Set submitted state to true
+        let message = response.data.message || 'Data updated successfully'
+        setModalMessage(message); // Set modal message
+        setModalOpen(true); // Open modal
+      })
+      .catch(error => {
+        console.error('Error updating data:', error);
+        // Handle error if needed
+        console.log(error.response.data.message)
+        let message = error?.response?.data?.message || error.message
+        setModalMessage(message);
+        setModalOpen(true); // Open modal
+      });
   };
 
   const closeModal = () => {
